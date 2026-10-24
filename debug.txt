@@ -1,0 +1,134 @@
+
+> js-task-lister-lite@1.0.0 test
+> mocha --timeout 5000 --reporter spec
+
+
+
+  Handling form submission
+Error: Uncaught [TypeError: Cannot read properties of undefined (reading 'value')]
+    at reportException (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/jsdom/lib/jsdom/living/helpers/runtime-script-errors.js:66:24)
+    at innerInvokeEventListeners (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:353:9)
+    at invokeEventListeners (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+    at HTMLFormElementImpl._dispatch (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+    at HTMLFormElementImpl.dispatchEvent (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+    at HTMLFormElement.dispatchEvent (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+    at Context.<anonymous> (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/test/indexTest.js:54:10)
+    at callFn (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/mocha/lib/runnable.js:364:21)
+    at Runnable.run (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/mocha/lib/runnable.js:352:5)
+    at Runner.runTest (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/mocha/lib/runner.js:677:10)
+    at /home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/mocha/lib/runner.js:800:12
+    at next (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/mocha/lib/runner.js:592:14)
+    at /home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/mocha/lib/runner.js:602:7
+    at next (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/mocha/lib/runner.js:485:14)
+    at Immediate._onImmediate (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/mocha/lib/runner.js:570:5)
+    at process.processImmediate (node:internal/timers:484:21) TypeError: Cannot read properties of undefined (reading 'value')
+    at HTMLFormElement.<anonymous> (about:blank:15:53)
+    at HTMLFormElement.callTheUserObjectsOperation (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+    at innerInvokeEventListeners (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:350:25)
+    at invokeEventListeners (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:286:3)
+    at HTMLFormElementImpl._dispatch (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:233:9)
+    at HTMLFormElementImpl.dispatchEvent (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:104:17)
+    at HTMLFormElement.dispatchEvent (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/jsdom/lib/jsdom/living/generated/EventTarget.js:241:34)
+    at Context.<anonymous> (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/test/indexTest.js:54:10)
+    at callFn (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/mocha/lib/runnable.js:364:21)
+    at Runnable.run (/home/alcopine_x/Moringa/Mod2/JS-practice/phase-1-tasklister-mini-project/node_modules/mocha/lib/runnable.js:352:5)
+    1) should add an event to the form and add input to webpage
+
+
+  0 passing (19ms)
+  1 failing
+
+  1) Handling form submission
+       should add an event to the form and add input to webpage:
+     AssertionError: expected '\n      ' to include 'Wash the dishes'
+      at Context.<anonymous> (test/indexTest.js:55:37)
+      at process.processImmediate (node:internal/timers:484:21)
+
+
+
+-----TEST FILE-----
+const chai = require('chai');
+global.expect = chai.expect;
+
+const fs = require('fs');
+const path = require('path');
+const { JSDOM } = require('jsdom');
+const babel = require('@babel/core');
+
+// Load HTML content
+const html = fs.readFileSync(path.resolve(__dirname, '..', 'index.html'), 'utf-8');
+
+// Transform JavaScript using Babel
+const { code: transformedScript } = babel.transformFileSync(
+  path.resolve(__dirname, '..', 'src/index.js'),
+  { presets: ['@babel/preset-env'] }
+);
+
+// Initialize JSDOM
+const dom = new JSDOM(html, {
+  runScripts: "dangerously",
+  resources: "usable"
+});
+
+// Inject the transformed JavaScript into the virtual DOM
+const scriptElement = dom.window.document.createElement("script");
+scriptElement.textContent = transformedScript;
+dom.window.document.body.appendChild(scriptElement);
+
+// Expose JSDOM globals to the testing environment
+global.window = dom.window;
+global.document = dom.window.document;
+global.navigator = dom.window.navigator;
+global.HTMLElement = dom.window.HTMLElement;
+global.Node = dom.window.Node;
+global.Text = dom.window.Text;
+global.XMLHttpRequest = dom.window.XMLHttpRequest;
+
+// Sample test suite for JavaScript event handling
+describe('Handling form submission', () => {
+  let form
+  let formInput
+  let taskList
+
+  before(() => {
+    form = document.querySelector('#create-task-form')
+    formInput = document.querySelector('#new-task-description')
+    taskList = document.querySelector('#tasks')
+  })
+
+  it('should add an event to the form and add input to webpage', () => {
+    // Simulate user input
+    formInput.value = 'Wash the dishes'
+    const event = new dom.window.Event('submit')
+    form.dispatchEvent(event)
+    expect(taskList.textContent).to.include('Wash the dishes')
+  })
+})-----HTML-----
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flatiron Task Lister</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="main-content">
+    <h1>Task Lister Lite™️</h1>
+
+    <form id="create-task-form" action="" method="POST">
+      <label for="new-task-description">Task description:</label>
+      <input type="text" id="new-task-description" name="new-task-description" placeholder="description">
+      <input type="submit" value="Create New Task">
+    </form>
+
+    <div id="list">
+      <h2>My Todos:</h2>
+      <ul id="tasks">
+      </ul>
+    </div>
+
+    <script src="src/index.js"></script>
+  </div>
+
+</body>
+</html>

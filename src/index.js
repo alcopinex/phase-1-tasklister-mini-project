@@ -1,5 +1,3 @@
-let initialized = false;
-
 function buildToDo(todo) {
   const li = document.createElement("li");
   li.textContent = todo;
@@ -7,24 +5,21 @@ function buildToDo(todo) {
 }
 
 function init() {
-  if (initialized) return;
-  initialized = true;
-
   const form = document.getElementById("create-task-form");
+  if (!form || form.dataset.bound) return;
+  form.dataset.bound = "true";
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const task = event.target["new-task-description"].value;
-    console.log("Task submitted:", task);
+    const input = document.getElementById("new-task-description");
+    const task = input.value;
 
     buildToDo(task);
     form.reset();
   });
 }
 
-// Works whether the test loads the script before or after the DOM is ready,
-// and whether or not it fires DOMContentLoaded itself.
 document.addEventListener("DOMContentLoaded", init);
 if (document.readyState !== "loading") {
   init();
