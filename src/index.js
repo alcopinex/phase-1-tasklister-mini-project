@@ -1,3 +1,5 @@
+let initialized = false;
+
 function buildToDo(todo) {
   const li = document.createElement("li");
   li.textContent = todo;
@@ -5,6 +7,9 @@ function buildToDo(todo) {
 }
 
 function init() {
+  if (initialized) return;
+  initialized = true;
+
   const form = document.getElementById("create-task-form");
 
   form.addEventListener("submit", (event) => {
@@ -18,8 +23,9 @@ function init() {
   });
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", init);
-} else {
+// Works whether the test loads the script before or after the DOM is ready,
+// and whether or not it fires DOMContentLoaded itself.
+document.addEventListener("DOMContentLoaded", init);
+if (document.readyState !== "loading") {
   init();
 }
